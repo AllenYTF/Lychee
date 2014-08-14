@@ -34,8 +34,9 @@ class CalendarHandler(webapp2.RequestHandler):
 class PopupHandler(webapp2.RequestHandler):
     def get(self):
         players = Player.query()
+        self.response.write("listing all players in the db:")
         for player in players:
-            self.response.write(player)
+            self.response.write(player.name)
 
 class AddUserHandler(webapp2.RequestHandler):
     def get(self):
