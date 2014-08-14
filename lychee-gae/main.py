@@ -20,6 +20,11 @@ class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('This is Lychee!')
 
+class PopupHandler(webapp2.RequestHandler):
+	def get(self):
+		self.response.write('Go to Popup')
+
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', MainHandler),
+    ('/popup', PopupHandler)
 ], debug=True)
