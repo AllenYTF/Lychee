@@ -25,18 +25,25 @@ for i in range(0,288):
 
 from google.appengine.ext import ndb
 
+class Reservation(ndb.Model):
+	id = ndb.IntegerProperty()
+	playerId = ndb.IntegerProperty()
+	times_reserveed = ndb.IntegerProperty(repeated=True)
+
 class Player(ndb.Model):
     id = ndb.IntegerProperty()
     name = ndb.StringProperty()
     email = ndb.StringProperty()
     games_played = ndb.IntegerProperty()
-    current_pool_reservations = nbd.IntegerProperty(repeated=True)
-    current_pong_reservations = nbd.IntegerProperty(repeated=True)
+    current_pool_reservation_ids = ndb.IntegerProperty(repeated=True)
+    current_pong_reservation_ids = ndb.IntegerProperty(repeated=True)
 
-class Day(nbd.Model):
+class Day(ndb.Model):
 	date = nbd.DateProperty()
-	pool_times_reserved = nbd.IntegerProperty(repeated=True)
-	pong_times_reserved = nbd.IntegerProperty(repeated=True)
+	pool_reservation_ids = ndb.IntegerProperty(repeated=True)
+	pool_reservation_ids = ndb.IntegerProperty(repeated=True)
+	pool_times_reserved = ndb.IntegerProperty(repeated=True)
+	pong_times_reserved = ndb.IntegerProperty(repeated=True)
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
