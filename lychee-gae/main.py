@@ -15,16 +15,31 @@
 # limitations under the License.
 #
 import webapp2
+from google.appengine.ext import ndb
+
+class Player(ndb.Model):
+    id = ndb.IntegerProperty()
+    name = ndb.StringProperty()
+    email = ndb.StringProperty()
+    games_played = ndb.IntegerProperty()
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('This is Lychee!')
 
 class PopupHandler(webapp2.RequestHandler):
-	def get(self):
-		self.response.write('Go to Popup')
+    def get(self):
+        players = Player.query()
+        for player in players:
+            self.response.write(player)
+
+class AddUserHandler(webapp2.RequestHandler):
+    def get(self):
+        player = Player(id=1, name="test_user", email="test@adap.tv", games_played=99)
+        player.put()
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/popup', PopupHandler)
+    ('/popup', PopupHandler),
+    ('/adduser', AddUserHandler)
 ], debug=True)
