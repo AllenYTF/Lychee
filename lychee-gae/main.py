@@ -15,11 +15,22 @@
 # limitations under the License.
 #
 import webapp2
+import calendar
+import time
+
+timeBuckets = []
+for i in range(0,288):
+	timeBuckets.append(False);
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('This is Lychee!')
 
+class CalendarHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.write('The current time is ' + str(time.localtime()) + '!')
+
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', MainHandler),
+    ('/Calendar', CalendarHandler)
 ], debug=True)
