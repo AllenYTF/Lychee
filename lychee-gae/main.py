@@ -30,6 +30,14 @@ class Player(ndb.Model):
     name = ndb.StringProperty()
     email = ndb.StringProperty()
     games_played = ndb.IntegerProperty()
+    current_pool_reservations = nbd.IntegerProperty()
+    current_pong_reservations = nbd.IntegerProperty()
+
+class Day(nbd.Model):
+	date = nbd.DateProperty()
+	pool_times_reserved = nbd.IntegerProperty()
+	pong_times_reserved = nbd.IntegerProperty()
+
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
