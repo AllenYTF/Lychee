@@ -17,6 +17,7 @@
 import webapp2
 import calendar
 import time
+from dashboard import DashboardHandler
 
 timeBuckets = []
 for i in range(0,288):
@@ -52,5 +53,6 @@ class AddUserHandler(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/popup', PopupHandler),
-    ('/adduser', AddUserHandler)
+    ('/adduser', AddUserHandler),
+    ('/dashboard', DashboardHandler)
 ], debug=True)
