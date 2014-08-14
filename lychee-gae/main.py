@@ -19,19 +19,8 @@ import webapp2
 import calendar
 import time
 from dashboard import DashboardHandler
-from google.appengine.ext import ndb
-
-
-class Reservation(ndb.Model):
-	id = ndb.IntegerProperty()
-	playerId = ndb.IntegerProperty(repeated=True)
-	time_slots_reserved = ndb.IntegerProperty(repeated=True)
-
-class Player(ndb.Model):
-    id = ndb.IntegerProperty()
-    name = ndb.StringProperty()
-    email = ndb.StringProperty()
-    games_played = ndb.IntegerProperty()
+from model_players import Player
+from model_reservations import Reservation
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
