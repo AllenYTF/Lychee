@@ -19,6 +19,7 @@ import webapp2
 import calendar
 import time
 from dashboard import DashboardHandler
+from dashboard import DashboardHandler2
 from model_players import Player
 from model_reservations import Reservation
 
@@ -45,5 +46,6 @@ app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/popup', PopupHandler),
     ('/adduser', AddUserHandler),
-    ('/dashboard', DashboardHandler)
+    ('/dashboard', DashboardHandler),
+    ('/dashboard2', DashboardHandler2)
 ], debug=True)

@@ -17,3 +17,14 @@ class DashboardHandler(webapp2.RequestHandler):
         }
         template = JINJA_ENVIRONMENT.get_template('dashboard.html')
         self.response.write(template.render(template_values))
+
+class DashboardHandler2(webapp2.RequestHandler):
+    def get(self):
+        template_values = {
+            'greetings': "GREETINGS",
+            'guestbook_name': "GUESTBOOK NAME",
+            'url': "URL",
+            'url_linktext': "URL_LINKTEXT",
+        }
+        template = JINJA_ENVIRONMENT.get_template('dashboard2.html')
+        self.response.write(template.render(template_values))
