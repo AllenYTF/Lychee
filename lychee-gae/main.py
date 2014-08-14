@@ -14,21 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 import webapp2
 import calendar
 import time
 from dashboard import DashboardHandler
-
-timeBuckets = []
-for i in range(0,288):
-	timeBuckets.append(False);
-
 from google.appengine.ext import ndb
+
 
 class Reservation(ndb.Model):
 	id = ndb.IntegerProperty()
 	playerId = ndb.IntegerProperty(repeated=True)
-	times_reserveed = ndb.IntegerProperty(repeated=True)
+	time_slots_reserved = ndb.IntegerProperty(repeated=True)
 
 class Player(ndb.Model):
     id = ndb.IntegerProperty()
