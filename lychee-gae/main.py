@@ -27,7 +27,7 @@ from google.appengine.ext import ndb
 
 class Reservation(ndb.Model):
 	id = ndb.IntegerProperty()
-	playerId = ndb.IntegerProperty()
+	playerId = ndb.IntegerProperty(repeated=True)
 	times_reserveed = ndb.IntegerProperty(repeated=True)
 
 class Player(ndb.Model):
@@ -35,15 +35,6 @@ class Player(ndb.Model):
     name = ndb.StringProperty()
     email = ndb.StringProperty()
     games_played = ndb.IntegerProperty()
-    current_pool_reservation_ids = ndb.IntegerProperty(repeated=True)
-    current_pong_reservation_ids = ndb.IntegerProperty(repeated=True)
-
-class Day(ndb.Model):
-	date = nbd.DateProperty()
-	pool_reservation_ids = ndb.IntegerProperty(repeated=True)
-	pool_reservation_ids = ndb.IntegerProperty(repeated=True)
-	pool_times_reserved = ndb.IntegerProperty(repeated=True)
-	pong_times_reserved = ndb.IntegerProperty(repeated=True)
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
