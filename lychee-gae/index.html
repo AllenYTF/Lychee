@@ -162,17 +162,15 @@
 <script>
     function setCookie() {
         document.cookie = document.getElementById("input_name").value;
-        document.getElementById("player_name").innerHTML = document.getElementById("input_name").value;
-        //document.cookie = "jsw";
         checkCookie();
     }
     function getCookie() {
         return document.cookie;
     }
     function checkCookie() {
-        var username = getCookie();
-        if (username != "") {
-            showPlayerName(username);
+        player_name = getCookie();
+        if (player_name != "") {
+            showPlayerName(player_name);
         } else {
             showLogin();
         }
