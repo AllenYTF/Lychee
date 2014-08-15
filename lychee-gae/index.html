@@ -70,12 +70,37 @@
       return returnValue;
     }
 
+    function overlap(new_event, old_event) {
+      if (old_event.start > new_event.start && old_event.end < new_event.start)
+        return false;
+      if (old_event.start > new_event.end && old_event.end < new_event.end)
+        return false;
+      return true;
+    }
+
     $(document).ready(function() {
 
       // page is now ready, initialize the calendar...
 
       $('#calendar').fullCalendar({
         // put your options and callbacks here
+
+        var json_str = '\
+        [\
+          {\
+              "players":["Abhi", "Shengwei", "Ruofeng", "Allen", "Tony"],\
+              "start":"Thu Aug 15 2014 09:15:00 GMT+0000",\
+              "end":"Thu Aug 15 2014 10:10:00 GMT+0000"\
+          },\
+          {\
+              "players":["Abhi", "Allen", "Tony"],\
+              "start":"Thu Aug 15 2014 13:45:00 GMT+0000",\
+              "end":"Thu Aug 15 2014 14:10:00 GMT+0000"\
+          }\
+        ]\
+        '
+        events = JSON.parse(json_str);
+
         selectable: true,
         selectHelper: true,
         select: function(start, end) {
@@ -91,8 +116,18 @@
 
               // make sure there's not collision with existing reservations
 
+              var no_overlap = true;
 
-              $('#calendar').fullCalendar('renderEvent', eventData, true);
+              for (var i=0; i<events.length; i++) {
+                if(overlap(eventData, events[i])) {
+                  no_overlap = false;
+                  break;
+                }
+              }
+
+              if (no_overlap) {
+                $('#calendar').fullCalendar('renderEvent', eventData, true);
+              }
             }
 
             if (event_id_counter > 0) {
