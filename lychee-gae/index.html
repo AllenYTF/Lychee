@@ -57,7 +57,13 @@
       }
     }
 
-
+    function send_request(url) {
+      var request = new XMLHttpRequest();
+      request.open("GET", url, false);
+      request.send(null);
+      var returnValue = request.responseText;
+      return returnValue;
+    }
 
     $(document).ready(function() {
 
@@ -143,6 +149,22 @@
       return name;
     }
 
+    function checkIfThisUserIsInDB() {
+      var json_str = send_request('/get_public');
+      var players = JSON.parse(json_str);
+      var found = false;
+      for (var i=0; i<players.length; i++) {
+        if (players[i].name == document.getElementById("input_name").value) {
+          found = true;
+          break;
+        }
+      }
+      if (found == false) {
+        // create a textbox for email
+        document.getElementById("create_new_user").innerHTML = 'Yah, new player ~ ^_^ ~ What is your email, man?<input id="input_email" type="text" name="Email"></input>';
+      }
+    }
+
     function setCookie() {
         document.cookie = document.getElementById("input_name").value;
         checkCookie();
@@ -193,7 +215,8 @@
     <div class="row">
       <span> Player: </span>
       <input id="input_name" type="text" name="Name"></input>
-      <input type="submit" onclick="setCookie()"></input>
+      <input type="submit" onclick="checkIfThisUserIsInDB()"></input>
+      <div id="create_new_user"></div>
       <span>   You are: </span>
       <span id="player_name">none</span>
     </div>
