@@ -58,10 +58,19 @@ class PublicHandler(webapp2.RequestHandler):
         except (TypeError, ValueError):
             self.response.out.write("<html><body><p>Invalid inputs</p></body></html>")
 
+class ReservationHandler(webapp2.RequestHandler):
+    def get(self):
+        try:
+            with open("data/reservation.json") as reservation:
+                self.response.out.write(reservation.read())
+        except (TypeError, ValueError):
+            self.response.out.write("<html><body><p>Invalid data</p></body></html>")
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/popup', PopupHandler),
     ('/adduser', AddUserHandler),
     ('/dashboard', DashboardHandler),
-    ('/get_public', PublicHandler)
+    ('/get_public', PublicHandler),
+    ('/get_reservations', ReservationHandler)
 ], debug=True)
