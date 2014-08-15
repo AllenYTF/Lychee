@@ -23,11 +23,16 @@ from model_players import Player
 from model_reservations import Reservation
 import jinja2
 import os
+import json
+import ast
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
+
+Players=[]
+Reservations=[]
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -53,18 +58,41 @@ class AddUserHandler(webapp2.RequestHandler):
 class PublicHandler(webapp2.RequestHandler):
     def get(self):
         try:
-            with open("data/player.json") as player:
-                self.response.out.write(player.read())
+            self.response.out.write(Players)
         except (TypeError, ValueError):
             self.response.out.write("<html><body><p>Invalid inputs</p></body></html>")
 
 class ReservationHandler(webapp2.RequestHandler):
     def get(self):
         try:
-            with open("data/reservation.json") as reservation:
-                self.response.out.write(reservation.read())
+            self.response.out.write(Reservations)
         except (TypeError, ValueError):
             self.response.out.write("<html><body><p>Invalid data</p></body></html>")
+
+class CreatePlayerHandler(webapp2.RequestHandler):
+    def get(self):
+        try:
+            name = self.request.get("name")
+            email = self.request.get("email")
+            new_player = "{'name': '%s', 'email': '%s'}" % (name, email)
+            Players.append(ast.literal_eval(new_player))
+        except (TypeError, ValueError):
+            self.response.out.write("<html><body><p>Invalid data</p></body></html>")
+
+class CreateReservationHandler(webapp2.RequestHandler):
+    def get(self):
+        try:
+            names = self.request.get("players")
+            names_split = names.split(',')
+            names_split = ['"'+a+'"' for a in names_split]
+            names = ','.join(names_split)
+            self.response.out.write(names)
+            start = self.request.get("start")
+            end = self.request.get("end")
+            new_reservation = "{'players': [%s], 'start':'%s', 'end':'%s'}" % (names, start, end)
+            Reservations.append(ast.literal_eval(new_reservation))
+        except (TypeError, ValueError):
+            self.response.out.write("<html><body><p>Invalid data</p></body></html>") 
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
@@ -72,5 +100,7 @@ app = webapp2.WSGIApplication([
     ('/adduser', AddUserHandler),
     ('/dashboard', DashboardHandler),
     ('/get_public', PublicHandler),
-    ('/get_reservations', ReservationHandler)
+    ('/get_reservations', ReservationHandler),
+    ('/create_player', CreatePlayerHandler),
+    ('/create_reservation', CreateReservationHandler)
 ], debug=True)
