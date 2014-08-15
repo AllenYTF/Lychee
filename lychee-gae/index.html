@@ -107,8 +107,45 @@
   }
 
   </style>
+
+<script>
+    function setCookie() {
+        document.cookie = document.getElementById("input_name").value;
+        document.getElementById("player_name").innerHTML = document.getElementById("input_name").value;
+        //document.cookie = "jsw";
+        checkCookie();
+    }
+    function getCookie() {
+        return document.cookie;
+    }
+    function checkCookie() {
+        var username = getCookie();
+        if (username != "") {
+            showPlayerName(username);
+        } else {
+            showLogin();
+        }
+    }
+    function showPlayerName(pname) {
+        var player = pname;
+        document.getElementById("player_name").innerHTML = player;
+    }
+    function showLogin() {
+    }
+</script>
+
+<script>
+    function load() {
+        showEventsOnCalendar();
+        checkCookie();
+    }
+</script>
+
 </head>
-<body onload="showEventsOnCalendar()">
+<body onload="load()">
+    <input id="input_name" type="text" name="Name"></input>
+    <input type="submit" onclick="setCookie()"></input>
+    <p id="player_name">none</p>
   <div class="container">
     <div id='calendar' style="background-color:#FFD700;height:800px;width:400px;float:left;"></div>
     <div id="info" style="background-color:#EEEEEE;height:400px;width:400px;float:left;">
