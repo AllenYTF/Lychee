@@ -20,6 +20,7 @@
   <script src='./calendar/fullcalendar.js'></script>
   <script src="./javascript/typed.js"></script>
   <script src="./javascript/bootstrap.min.js"></script>
+  <script src="./javascript/typed.js"></script>
   <script>
     $(document).ready(function() {
 
@@ -38,7 +39,7 @@
               start: start,
               end: end
             };
-            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+            $('#calendar').fullCalendar('renderEvent', eventData, true);
           }
           $('#calendar').fullCalendar('unselect');
           document.getElementById("player").innerHTML = eventData.title;
@@ -47,6 +48,40 @@
         }
       })
     });
+
+    function showEventsOnCalendar() {
+      var json_str = '\
+      [\
+        {\
+            "players":["Abhi", "Shengwei", "Ruofeng", "Allen", "Tony"],\
+            "start":"Thu Aug 14 2014 09:15:00 GMT+0000",\
+            "end":"Thu Aug 14 2014 10:10:00 GMT+0000"\
+        },\
+        {\
+            "players":["Abhi", "Allen", "Tony"],\
+            "start":"Thu Aug 14 2014 13:45:00 GMT+0000",\
+            "end":"Thu Aug 14 2014 14:10:00 GMT+0000"\
+        }\
+      ]\
+      '
+      var events = JSON.parse(json_str);
+      console.log(events.length);
+      for (var i=0; i<events.length; i++) {
+        var title = "";
+        for (var j=0; j<events[i].players.length; j++) {
+          title = title.concat(events[i].players[j]);
+          title = title.concat(", ")
+        }
+        title = title.substring(0, title.length-2);
+        eventData = {
+          title: title,
+          start: events[i].start,
+          end: events[i].end
+        };
+        $('#calendar').fullCalendar('renderEvent', eventData, true);
+      }
+      // document.getElementById("player").innerHTML = events[0];
+    }
 
     function cancel() {
       $('#calendar').fullCalendar('removeEvents', eventData.id);
@@ -73,7 +108,7 @@
 
   </style>
 </head>
-<body>
+<body onload="showEventsOnCalendar()">
   <div class="container">
     <div id='calendar' style="background-color:#FFD700;height:800px;width:400px;float:left;"></div>
     <div id="info" style="background-color:#EEEEEE;height:400px;width:400px;float:left;">
