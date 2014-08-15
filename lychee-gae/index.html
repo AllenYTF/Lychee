@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>Lychee</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Free medicine delivery anytime, anywhere">
+
+  <!-- Font Awesome -->
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- Google Font -->
+  <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+  <!-- Bootstrap -->
+  <link href="./css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <link href="./css/style.css" rel="stylesheet" media="screen">
+  <link rel='stylesheet' href='./calendar/fullcalendar.css' />
+  <script src='./javascript/jquery.min.js'></script>
+  <script src='./javascript/moment.min.js'></script>
+  <script src='./calendar/fullcalendar.js'></script>
+  <script src="./javascript/typed.js"></script>
+  <script src="./javascript/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function() {
+
+      // page is now ready, initialize the calendar...
+
+      $('#calendar').fullCalendar({
+          // put your options and callbacks here
+      })
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <h2>This is a the main page</h2>
+    </div>
+    <div id='calendar'></div>
+  </div>
+  </body>
+</html>
+{% endautoescape %}
