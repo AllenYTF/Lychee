@@ -232,8 +232,8 @@
       <div class="pull-left">
         <div id="loginbox">
           <span> Player: </span>
-          <input id="input_name" type="text" name="Name"></input>
-          <input type="submit" onclick="checkIfThisUserIsInDB()"></input>
+          <input id="input_name" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('submitbutton').click()"></input>
+          <input id="submitbutton" type="submit" onclick="checkIfThisUserIsInDB()"></input>
         </div>
         <div id="create_new_user"></div>
         <span>   You are: </span>
