@@ -26,7 +26,7 @@ var defaults = {
 
 	// display
 	defaultView: 'agendaDay',
-	aspectRatio: 1.35,
+	aspectRatio: 0.5,
 	header: {
 		left: 'title',
 		center: '',
@@ -38,7 +38,7 @@ var defaults = {
 	weekNumberTitle: 'W',
 	weekNumberCalculation: 'local',
 	
-	//editable: false,
+	editable: true,
 	
 	// event ajax
 	lazyFetching: true,
@@ -107,7 +107,6 @@ var defaults = {
 	
 	handleWindowResize: true,
 	windowResizeDelay: 200 // milliseconds before a rerender happens
-	
 };
 
 
