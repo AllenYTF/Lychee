@@ -221,21 +221,25 @@
 
 </head>
 <body onload="load()">
-  <div class="container">
-    <div class="row">
-      <div id="loginbox">
-        <span> Player: </span>
-        <input id="input_name" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('submitbutton').click()"></input>
-        <input id="submitbutton" type="submit" onclick="checkIfThisUserIsInDB()"></input>
+  <nav class="navbar navbar-black navbar-fixed-top" role="navigation">
+    <div class="container content">
+      <div class="pull-left">
+        <div id="loginbox">
+          <span> Player: </span>
+          <input id="input_name" type="text" name="Name"></input>
+          <input type="submit" onclick="checkIfThisUserIsInDB()"></input>
+        </div>
+        <div id="create_new_user"></div>
+        <span>   You are: </span>
+        <span id="player_name">none</span>
       </div>
-      <div id="create_new_user"></div>
-      <span>   You are: </span>
-      <span id="player_name">none</span>
+      <div class="pull-right">
+        <span> Ping-pong table status:</span>
+        <span id="table-status">FREE</span>
+      </div>
     </div>
-    <div class="row">
-      <span> Ping-pong table status:</span>
-      <span id="table-status">FREE</span>
-    </div>
+  </nav>
+  <div class="container section">    
     <div class="row">
       <div class="col-lg-6">
         <div id='calendar'></div>
@@ -255,7 +259,7 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
   </body>
 </html>
 {% endautoescape %}

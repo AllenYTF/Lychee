@@ -328,6 +328,14 @@ a:hover {
     color: #1bbc9b;
     border-bottom: solid 1px #eee;
 }
+
+.navbar-black {
+    z-index: 70;
+    background-color: #fff;
+    color: black;
+    border-bottom: solid 1px #eee;
+}
+
 .navbar-brand {
     font-size: 2em;
     font-weight: 600;
