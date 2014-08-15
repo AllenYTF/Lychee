@@ -149,6 +149,13 @@
       return name;
     }
 
+    function CreateNewUser() {
+      player_name = document.getElementById("input_name").value;
+      email = document.getElementById("input_email").value;
+      send_request('/create_player?name='+player_name+'&email='+email);
+      setCookie();
+    }
+
     function checkIfThisUserIsInDB() {
       var json_str = send_request('/get_public');
       var players = JSON.parse(json_str);
@@ -156,12 +163,14 @@
       for (var i=0; i<players.length; i++) {
         if (players[i].name == document.getElementById("input_name").value) {
           found = true;
+          setCookie();
           break;
         }
       }
       if (found == false) {
         // create a textbox for email
-        document.getElementById("create_new_user").innerHTML = 'Yah, new player ~ ^_^ ~ What is your email, man?<input id="input_email" type="text" name="Email"></input>';
+        document.getElementById("create_new_user").innerHTML = 'Yah, new player ~ ^_^ ~ What is your email, man?<input id="input_email" type="text" name="Email"></input>\
+          <input type="submit" onclick="CreateNewUser()"></input>';
       }
     }
 
