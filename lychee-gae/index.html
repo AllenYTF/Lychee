@@ -85,25 +85,14 @@
       $('#calendar').fullCalendar({
         // put your options and callbacks here
 
-        var json_str = '\
-        [\
-          {\
-              "players":["Abhi", "Shengwei", "Ruofeng", "Allen", "Tony"],\
-              "start":"Thu Aug 15 2014 09:15:00 GMT+0000",\
-              "end":"Thu Aug 15 2014 10:10:00 GMT+0000"\
-          },\
-          {\
-              "players":["Abhi", "Allen", "Tony"],\
-              "start":"Thu Aug 15 2014 13:45:00 GMT+0000",\
-              "end":"Thu Aug 15 2014 14:10:00 GMT+0000"\
-          }\
-        ]\
-        '
-        events = JSON.parse(json_str);
-
         selectable: true,
         selectHelper: true,
         select: function(start, end) {
+
+          var json_str = send_request('/get_reservations');
+          events = JSON.parse(json_str);
+          var no_overlap = true;
+
           title = player_name;
           if (title) {
             if (event_id_counter == 0) {
@@ -116,7 +105,7 @@
 
               // make sure there's not collision with existing reservations
 
-              var no_overlap = true;
+              
 
               for (var i=0; i<events.length; i++) {
                 if(overlap(eventData, events[i])) {
@@ -137,9 +126,12 @@
             event_id_counter++;
           }
           $('#calendar').fullCalendar('unselect');
-          getListOfRecent();
-          all_players();
-          disable_reservation = true;
+
+          console.log(no_overlap);
+          if (no_overlap) {
+            getListOfRecent();
+            all_players();
+          }
         }
       })
     });
