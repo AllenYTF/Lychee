@@ -1,11 +1,11 @@
 [
     {
-        "players":["Abhi", "Shengwei", "Ruofeng", "Allen", "Tony"],
+        "players":["abhi", "shengwei", "ruofeng", "allen", "tony"],
         "start":"Thu Aug 15 2014 09:15:00 GMT+0000",
         "end":"Thu Aug 15 2014 10:10:00 GMT+0000"
     },
     {
-        "players":["Abhi", "Allen", "Tony"],
+        "players":["abhi", "allen", "tony"],
         "start":"Thu Aug 15 2014 13:45:00 GMT+0000",
         "end":"Thu Aug 15 2014 14:10:00 GMT+0000"
     }

@@ -141,10 +141,15 @@
       var json_str = send_request('/get_reservations');
       events = JSON.parse(json_str);
       for (var i=0; i<events.length; i++) {
+        var color = '#ff0000';
         var title = "";
         for (var j=0; j<events[i].players.length; j++) {
           title = title.concat(events[i].players[j]);
-          title = title.concat(", ")
+          title = title.concat(", ");
+          console.log(player_name+","+events[i].players[j]);
+          if (player_name == events[i].players[j]) {
+            color = '#00ff00';
+          }
         }
         title = title.substring(0, title.length-2);
         eventData = {
@@ -152,6 +157,7 @@
           start: events[i].start,
           end: events[i].end
         };
+        eventData.color = color;
         console.log(eventData);
         $('#calendar').fullCalendar('renderEvent', eventData, true);
       }
@@ -240,8 +246,8 @@
     }
 
     function load() {
-        showEventsOnCalendar();
         checkCookie();
+        showEventsOnCalendar();
     }
 
   </script>
