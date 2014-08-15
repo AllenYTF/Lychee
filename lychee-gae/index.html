@@ -155,6 +155,7 @@
     function showEventsOnCalendar() {
 
       var json_str = send_request('/get_reservations');
+      console.log(json_str);
       events = JSON.parse(json_str);
       for (var i=0; i<events.length; i++) {
         var color = '#ff0000';
@@ -167,7 +168,9 @@
             color = '#00ff00';
           }
         }
-        title = title.substring(0, title.length-2);
+        if (events[i].players.length > 0) {
+          title = title.substring(0, title.length-2);
+        }
         eventData = {
           title: title,
           start: events[i].start,
@@ -189,10 +192,10 @@
       // add something to title
       var title = "";
       title = title.concat(player_name);
-      title = title.concat(", ")
+      title = title.concat(",")
       for (var j=0; j<selected_players.length; j++) {
         title = title.concat(selected_players[j]);
-        title = title.concat(", ")
+        title = title.concat(",")
       }
       title = title.substring(0, title.length-2);
       eventData.title = title;
@@ -200,6 +203,8 @@
       $('#calendar').fullCalendar('renderEvent', eventData, true);
 
       // put to db and refresh
+      send_request('/make_reservation?players='+title+'&start='+eventData.start+'&end='+eventData.end);
+      showEventsOnCalendar();
     }
 
     function search() {
