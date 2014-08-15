@@ -70,12 +70,28 @@
       return returnValue;
     }
 
+    function time_to_int(time) {
+      var s = time.substring(time.indexOf(':')-2, time.indexOf(':')+6);
+      var hour = parseInt(s.substring(0,2));
+      var min  = parseInt(s.substring(3,5));
+      var sec  = parseInt(s.substring(6,8));
+      return sec + 60*min + 60*60*hour;
+    }
+
     function overlap(new_event, old_event) {
-      if (old_event.start > new_event.start && old_event.end < new_event.start)
-        return false;
-      if (old_event.start > new_event.end && old_event.end < new_event.end)
-        return false;
-      return true;
+      var new_start = time_to_int(new_event.start.toDate().toUTCString())
+      var new_end = time_to_int(new_event.end.toDate().toUTCString())
+      var old_start = time_to_int(old_event.start)
+      var old_end = time_to_int(old_event.end)
+      if (old_start < new_start && new_start < old_end)
+        return true;
+      if (old_start < new_end && new_end < old_end)
+        return true;
+      if (new_start < old_start && old_start < new_end)
+        return true;
+      if (new_start < old_end && old_end < new_end)
+        return true;
+      return false;
     }
 
     $(document).ready(function() {
@@ -105,8 +121,6 @@
 
               // make sure there's not collision with existing reservations
 
-              
-
               for (var i=0; i<events.length; i++) {
                 if(overlap(eventData, events[i])) {
                   no_overlap = false;
@@ -123,7 +137,9 @@
               $('#calendar').fullCalendar('removeEvents', event_id_counter);
               event_id_counter = 0;
             }
-            event_id_counter++;
+
+            if (no_overlap)
+              event_id_counter++;
           }
           $('#calendar').fullCalendar('unselect');
 
