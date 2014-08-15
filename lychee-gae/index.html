@@ -181,26 +181,31 @@
     }
 
     function setCookie() {
-        document.cookie = document.getElementById("input_name").value;
+        document.cookie = document.getElementById("input_name").value + "; expires=Thu, 1 Jan 2099 00:00:00 UTC";
         checkCookie();
     }
     function getCookie() {
         return document.cookie;
+    }
+    function removeCookie() {
+        document.cookie = "; expires=Thu, 1 Jan 1970 00:00:00 UTC";
+        checkCookie();
     }
     function checkCookie() {
         player_name = getCookie();
         if (player_name != "") {
             showPlayerName(player_name);
             document.getElementById('loginbox').setAttribute('style', 'display: none');
+            document.getElementById('logoutbutton').setAttribute('style', 'display: yes');
         } else {
-            showLogin();
+            document.getElementById("player_name").innerHTML = "none";
+            document.getElementById('loginbox').setAttribute('style', 'display: yes');
+            document.getElementById('logoutbutton').setAttribute('style', 'display: none');
         }
     }
     function showPlayerName(pname) {
         var player = pname;
         document.getElementById("player_name").innerHTML = player;
-    }
-    function showLogin() {
     }
 
     function load() {
@@ -238,6 +243,7 @@
         <div id="create_new_user"></div>
         <span>   You are: </span>
         <span id="player_name">none</span>
+        <input id="logoutbutton" style="display: none" type="submit" onclick="removeCookie()" value="logout"></input>
       </div>
       <div class="pull-right">
         <span> Ping-pong table status:</span>
