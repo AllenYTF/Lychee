@@ -194,16 +194,20 @@
     <p id="player_name">none</p>
   <div class="container">
     <div id="banner">mei ren da</div>
-    <div id='calendar' style="background-color:#FFD700;height:800px;width:400px;float:left;"></div>
-    <div id="info" style="background-color:#EEEEEE;height:400px;width:400px;float:left;">
-      You played with:
-      <div id="recent"></div>
-      <input type="text" id="search">
-      <button onclick="search()">search</button>
-      Everyone:
-      <div id="all_players"></div>
-      <button onclick="cancel()">Cancel</button>
-      <button onclick="done()">DONE!</button>
+    <div class="col-lg-6">
+      <div id='calendar' style="background-color:#FFD700;"></div>
+    </div>
+    <div class="col-lg-6">
+      <div id="info" style="background-color:#EEEEEE;">
+        You played with:
+        <div id="recent"></div>
+        <input type="text" id="search">
+        <button onclick="search()">search</button>
+        Everyone:
+        <div id="all_players"></div>
+        <button onclick="cancel()">Cancel</button>
+        <button onclick="done()">DONE!</button>
+      </div>
     </div>
   </div>
   </body>
