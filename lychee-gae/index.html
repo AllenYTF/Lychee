@@ -145,22 +145,9 @@
     });
 
     function showEventsOnCalendar() {
-      var json_str = '\
-      [\
-        {\
-            "players":["Abhi", "Shengwei", "Ruofeng", "Allen", "Tony"],\
-            "start":"Thu Aug 15 2014 09:15:00 GMT+0000",\
-            "end":"Thu Aug 15 2014 10:10:00 GMT+0000"\
-        },\
-        {\
-            "players":["Abhi", "Allen", "Tony"],\
-            "start":"Thu Aug 15 2014 13:45:00 GMT+0000",\
-            "end":"Thu Aug 15 2014 14:10:00 GMT+0000"\
-        }\
-      ]\
-      '
+
+      var json_str = send_request('/get_reservations');
       events = JSON.parse(json_str);
-      console.log(events.length);
       for (var i=0; i<events.length; i++) {
         var title = "";
         for (var j=0; j<events[i].players.length; j++) {
@@ -173,6 +160,7 @@
           start: events[i].start,
           end: events[i].end
         };
+        console.log(eventData);
         $('#calendar').fullCalendar('renderEvent', eventData, true);
       }
       // document.getElementById("player").innerHTML = events[0];
