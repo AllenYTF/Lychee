@@ -185,6 +185,7 @@
         player_name = getCookie();
         if (player_name != "") {
             showPlayerName(player_name);
+            document.getElementById('loginbox').setAttribute('style', 'display: none');
         } else {
             showLogin();
         }
@@ -222,9 +223,11 @@
 <body onload="load()">
   <div class="container">
     <div class="row">
-      <span> Player: </span>
-      <input id="input_name" type="text" name="Name"></input>
-      <input type="submit" onclick="checkIfThisUserIsInDB()"></input>
+      <div id="loginbox">
+        <span> Player: </span>
+        <input id="input_name" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('submitbutton').click()"></input>
+        <input id="submitbutton" type="submit" onclick="checkIfThisUserIsInDB()"></input>
+      </div>
       <div id="create_new_user"></div>
       <span>   You are: </span>
       <span id="player_name">none</span>
