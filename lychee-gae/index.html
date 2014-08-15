@@ -24,6 +24,7 @@
   <script src="./javascript/typed.js"></script>
   <script>
 
+    event_id_counter = 0
     selected_players = []
     function clickOnSomebody(checkbox) {
       selected_players.push(checkbox.value);
@@ -80,17 +81,26 @@
         select: function(start, end) {
           title = player_name;
           if (title) {
-            eventData = {
-              id: 5123252,
-              title: title,
-              start: start,
-              end: end
-            };
-            $('#calendar').fullCalendar('renderEvent', eventData, true);
+            if (event_id_counter == 0) {
+              eventData = {
+                id: event_id_counter,
+                title: title,
+                start: start,
+                end: end
+              };
+              $('#calendar').fullCalendar('renderEvent', eventData, true);
+            }
+
+            if (event_id_counter > 0) {
+              $('#calendar').fullCalendar('removeEvents', event_id_counter);
+              event_id_counter = 0;
+            }
+            event_id_counter++;
           }
           $('#calendar').fullCalendar('unselect');
           getListOfRecent();
           all_players();
+          disable_reservation = true;
         }
       })
     });
@@ -130,7 +140,8 @@
     }
 
     function cancel() {
-      $('#calendar').fullCalendar('removeEvents', eventData.id);
+      $('#calendar').fullCalendar('removeEvents', 0);
+      event_id_counter = 0;
     }
 
     function done() {
@@ -144,9 +155,10 @@
       }
       title = title.substring(0, title.length-2);
       eventData.title = title;
-      $('#calendar').fullCalendar('removeEvents', eventData.id);
+      $('#calendar').fullCalendar('removeEvents', 0);
       $('#calendar').fullCalendar('renderEvent', eventData, true);
-      
+
+      // put to db and refresh
     }
 
     function search() {
