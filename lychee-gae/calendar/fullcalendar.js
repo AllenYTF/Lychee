@@ -25,12 +25,12 @@ var defaults = {
 	nextDayThreshold: '09:00:00', // 9am
 
 	// display
-	defaultView: 'month',
+	defaultView: 'agendaDay',
 	aspectRatio: 1.35,
 	header: {
 		left: 'title',
 		center: '',
-		right: 'today prev,next'
+		right: ''
 	},
 	weekends: true,
 	weekNumbers: false,
@@ -3599,12 +3599,13 @@ function AgendaDayView(element, calendar) { // TODO: make a DayView mixin
 ;;
 
 setDefaults({
-	allDaySlot: true,
+	allDaySlot: false,
 	allDayText: 'all-day',
 
 	scrollTime: '06:00:00',
 
-	slotDuration: '00:30:00',
+	slotDuration: '00:15:00',
+	snapDuration: '00:05:00',
 
 	axisFormat: generateAgendaAxisFormat,
 	timeFormat: {
@@ -3614,9 +3615,9 @@ setDefaults({
 	dragOpacity: {
 		agenda: .5
 	},
-	minTime: '00:00:00',
-	maxTime: '24:00:00',
-	slotEventOverlap: true
+	minTime: '09:00:00',
+	maxTime: '19:00:00',
+	slotEventOverlap: false
 });
 
 

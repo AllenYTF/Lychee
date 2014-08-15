@@ -19,13 +19,20 @@ import webapp2
 import calendar
 import time
 from dashboard import DashboardHandler
-from dashboard import DashboardHandler2
 from model_players import Player
 from model_reservations import Reservation
+import jinja2
+import os
+
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True)
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('This is Lychee!')
+        template = JINJA_ENVIRONMENT.get_template('index.html')
+        self.response.write(template.render())
 
 class CalendarHandler(webapp2.RequestHandler):
     def get(self):
@@ -47,6 +54,5 @@ app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/popup', PopupHandler),
     ('/adduser', AddUserHandler),
-    ('/dashboard', DashboardHandler),
-    ('/dashboard2', DashboardHandler2)
+    ('/dashboard', DashboardHandler)
 ], debug=True)
