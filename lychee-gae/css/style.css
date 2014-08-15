@@ -4,7 +4,13 @@
     border: 2px solid;
     border-radius: 25px;
     box-shadow: 10px 10px 5px #888888;
+    background-color: yellow;
 }
+
+.bg-image{
+    background-image: url(../image/ping_pong.jpg)
+}
+
 body, html {
     position: relative;
     height: 100%;
@@ -99,25 +105,6 @@ a:hover {
     text-align: left;
 }
 
-.top-slogan-div {
-    margin-left:100px;
-    text-align: left;
-}
-
-.top-slogan {
-    font-family: 'Exo', sans-serif;
-    font-size: 2em;
-    color:white;
-}
-
-.step-topic {
-    font-family: 'Ubuntu', sans-serif !important;
-}
-
-.step-description {
-    font-family: 'Hind', sans-serif !important;
-}
-
 .next-step-div {
     color:orange;
     font-size:1.5em;
@@ -128,18 +115,6 @@ a:hover {
     color:#FF7E00;
     font-size:1.5em;
     text-decoration: none;
-}
-
-
-.top-sentence-div {
-    margin-left:100px;
-    text-align: left;
-}
-
-.top-sentence {
-    font-family: 'Raleway', sans-serif;
-    font-size: 1.5em;
-    color:white;
 }
 
 .bottom-buffer { margin-bottom: 100px; }
