@@ -50,9 +50,18 @@ class AddUserHandler(webapp2.RequestHandler):
         player = Player(id=1, name="test_user", email="test@adap.tv", games_played=99)
         player.put()
 
+class PublicHandler(webapp2.RequestHandler):
+    def get(self):
+        try:
+            with open("data/player.json") as player:
+                self.response.out.write(player.read())
+        except (TypeError, ValueError):
+            self.response.out.write("<html><body><p>Invalid inputs</p></body></html>")
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/popup', PopupHandler),
     ('/adduser', AddUserHandler),
-    ('/dashboard', DashboardHandler)
+    ('/dashboard', DashboardHandler),
+    ('/get_public', PublicHandler)
 ], debug=True)
