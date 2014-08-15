@@ -41,6 +41,7 @@
     // query db to find this
     function getListOfRecent() {
       var recent = ["Abhi", "Sergey", "Andrew"];
+      document.getElementById("recent").innerHTML = "";
       for (var i=0; i<recent.length; i++) {
         var btn = createANiceButton(recent[i])
         document.getElementById("recent").innerHTML += btn;
@@ -49,7 +50,7 @@
 
     function all_players() {
       var all = ["Andrew", "Sergey", "Abhi", "Ruofeng", "Shengwei", "Shubo", "Allen", "Qi"];
-      var btn2= ""
+      document.getElementById("all_players").innerHTML = "";
       for (var i=0; i<all.length; i++) {
         var btn = createANiceButton(all[i])
         document.getElementById("all_players").innerHTML += btn;
@@ -67,7 +68,7 @@
         selectable: true,
         selectHelper: true,
         select: function(start, end) {
-          title = "this player";
+          title = player_name;
           if (title) {
             eventData = {
               id: 5123252,
@@ -142,24 +143,6 @@
       return name;
     }
 
-  </script>
-  <style>
-
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-    font-size: 14px;
-  }
-
-  #calendar {
-    width: 500px;
-    margin: 40px auto;
-  }
-
-  </style>
-
-<script>
     function setCookie() {
         document.cookie = document.getElementById("input_name").value;
         checkCookie();
@@ -181,14 +164,28 @@
     }
     function showLogin() {
     }
-</script>
 
-<script>
     function load() {
         showEventsOnCalendar();
         checkCookie();
     }
-</script>
+
+  </script>
+  <style>
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+    font-size: 14px;
+  }
+
+  #calendar {
+    width: 500px;
+    margin: 40px auto;
+  }
+
+  </style>
 
 </head>
 <body onload="load()">
