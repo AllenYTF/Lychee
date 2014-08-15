@@ -88,6 +88,10 @@
                 start: start,
                 end: end
               };
+
+              // make sure there's not collision with existing reservations
+
+
               $('#calendar').fullCalendar('renderEvent', eventData, true);
             }
 
@@ -120,7 +124,7 @@
         }\
       ]\
       '
-      var events = JSON.parse(json_str);
+      events = JSON.parse(json_str);
       console.log(events.length);
       for (var i=0; i<events.length; i++) {
         var title = "";
