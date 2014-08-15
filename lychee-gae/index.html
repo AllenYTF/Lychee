@@ -40,20 +40,24 @@
 
     // query db to find this
     function getListOfRecent() {
-      var recent = ["Abhi", "Sergey", "Andrew"];
+      var recent = ["abhi", "sergey", "andrew"];
       document.getElementById("recent").innerHTML = "";
       for (var i=0; i<recent.length; i++) {
-        var btn = createANiceButton(recent[i])
-        document.getElementById("recent").innerHTML += btn;
+        if (recent[i] != player_name) {
+          var btn = createANiceButton(recent[i])
+          document.getElementById("recent").innerHTML += btn;
+        }
       }
     }
 
     function all_players() {
-      var all = ["Andrew", "Sergey", "Abhi", "Ruofeng", "Shengwei", "Shubo", "Allen", "Qi"];
+      var all = ["andrew", "sergey", "abhi", "ruofeng", "shengwei", "shubo", "allen", "qi"];
       document.getElementById("all_players").innerHTML = "";
       for (var i=0; i<all.length; i++) {
-        var btn = createANiceButton(all[i])
-        document.getElementById("all_players").innerHTML += btn;
+        if (all[i] != player_name) {
+          var btn = createANiceButton(all[i])
+          document.getElementById("all_players").innerHTML += btn;
+        }
       }
     }
 
@@ -132,6 +136,8 @@
     function done() {
       // add something to title
       var title = "";
+      title = title.concat(player_name);
+      title = title.concat(", ")
       for (var j=0; j<selected_players.length; j++) {
         title = title.concat(selected_players[j]);
         title = title.concat(", ")
