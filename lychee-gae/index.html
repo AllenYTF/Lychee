@@ -146,7 +146,7 @@
           }
           $('#calendar').fullCalendar('unselect');
 
-          if (no_overlap) {
+          if (no_overlap && player_name != "") {
             getListOfRecent();
             all_players();
           }

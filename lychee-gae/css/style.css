@@ -9,8 +9,11 @@
     font-family: 'Raleway', sans-serif;
 }
 
-.bg-image{
-    background-image: url(../image/ping_pong.jpg)
+body {
+    background-image: url('./pool.png');
+    background-repeat: no-repeat;
+    background-size: 800px 600px;
+    background-position: right bottom;
 }
 
 body, html {
