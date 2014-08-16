@@ -227,6 +227,7 @@
       email = document.getElementById("input_email").value;
       send_request('/create_player?name='+player_name+'&email='+email);
       setCookie();
+      document.getElementById("create_new_user").innerHTML = "";
     }
 
     function checkIfThisUserIsInDB() {
@@ -243,7 +244,7 @@
       if (found == false) {
         // create a textbox for email
         document.getElementById("create_new_user").innerHTML = 'Yah, new player ~ ^_^ ~ What is your email, man?<input id="input_email" type="text" name="Email"></input>\
-          <input type="submit" onclick="CreateNewUser()"></input>';
+          <input type="submit" onclick="CreateNewUser()" value="register"></input>';
       }
     }
 
@@ -305,7 +306,7 @@
         <div id="loginbox">
           <span> Player: </span>
           <input id="input_name" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('submitbutton').click()"></input>
-          <input id="submitbutton" type="submit" onclick="checkIfThisUserIsInDB()"></input>
+          <input id="submitbutton" type="submit" onclick="checkIfThisUserIsInDB()" value="login"></input>
         </div>
         <div id="create_new_user"></div>
         <span>   You are: </span>
