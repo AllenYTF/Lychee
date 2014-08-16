@@ -162,16 +162,17 @@
         var title = "";
         for (var j=0; j<events[i].players.length; j++) {
           title = title.concat(events[i].players[j]);
-          title = title.concat(", ");
+          title = title.concat(",");
           console.log(player_name+","+events[i].players[j]);
           if (player_name == events[i].players[j]) {
             color = '#00ff00';
           }
         }
         if (events[i].players.length > 0) {
-          title = title.substring(0, title.length-2);
+          title = title.substring(0, title.length-1);
         }
         eventData = {
+          id:2798,
           title: title,
           start: events[i].start,
           end: events[i].end
@@ -197,14 +198,16 @@
         title = title.concat(selected_players[j]);
         title = title.concat(",")
       }
-      title = title.substring(0, title.length-2);
+      title = title.substring(0, title.length-1);
       eventData.title = title;
       $('#calendar').fullCalendar('removeEvents', 0);
       $('#calendar').fullCalendar('renderEvent', eventData, true);
 
       // put to db and refresh
+      eventData.id = 99;
       send_request('/make_reservation?players='+title+'&start='+eventData.start+'&end='+eventData.end);
       showEventsOnCalendar();
+      event_id_counter = 0;
     }
 
     function search() {
