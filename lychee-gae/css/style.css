@@ -1,5 +1,6 @@
 .status-div {
-    margin:50px;
+    #margin:50px;
+    margin:auto;
     padding:50px;
     #border: 2px solid;
     border-radius: 25px;
