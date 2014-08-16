@@ -24,8 +24,9 @@
   <script src="./javascript/typed.js"></script>
   <script>
 
-    event_id_counter = 0
-    selected_players = []
+    more_than_one_event = 0;
+    event_id_counter = 0;
+    selected_players = [];
     function clickOnSomebody(checkbox) {
       selected_players.push(checkbox.value);
     }
@@ -111,7 +112,7 @@
 
           title = player_name;
           if (title) {
-            if (event_id_counter == 0) {
+            if (more_than_one_event == 0) {
               eventData = {
                 id: event_id_counter,
                 title: title,
@@ -133,17 +134,18 @@
               }
             }
 
-            if (event_id_counter > 0) {
+            if (more_than_one_event > 0) {
               $('#calendar').fullCalendar('removeEvents', event_id_counter);
-              event_id_counter = 0;
+              more_than_one_event = 0;
             }
 
-            if (no_overlap)
+            if (no_overlap) {
+              more_than_one_event++;
               event_id_counter++;
+            }
           }
           $('#calendar').fullCalendar('unselect');
 
-          console.log(no_overlap);
           if (no_overlap) {
             getListOfRecent();
             all_players();
@@ -185,8 +187,8 @@
     }
 
     function cancel() {
-      $('#calendar').fullCalendar('removeEvents', 0);
-      event_id_counter = 0;
+      $('#calendar').fullCalendar('removeEvents', event_id_counter);
+      more_than_one_event = 0;
     }
 
     function done() {
@@ -200,7 +202,7 @@
       }
       title = title.substring(0, title.length-1);
       eventData.title = title;
-      $('#calendar').fullCalendar('removeEvents', 0);
+      $('#calendar').fullCalendar('removeEvents', event_id_counter-1);
       $('#calendar').fullCalendar('renderEvent', eventData, true);
 
       // put to db and refresh
@@ -208,7 +210,10 @@
       console.log(eventData.start);
       send_request('/create_reservation?players='+title+'&start='+eventData.start._d+'&end='+eventData.end._d);
       showEventsOnCalendar();
-      event_id_counter = 0;
+      more_than_one_event = 0;
+      selected_players = [];
+      document.getElementById("recent").innerHTML = "";
+      document.getElementById("all_players").innerHTML = "";
     }
 
     function search() {
