@@ -320,14 +320,18 @@
       <div class="col-lg-6">
         <div class="status-div">
           <div id="info">
-            You played with:
-            <div id="recent"></div>
-            <input type="text" id="search">
-            <button onclick="search()">search</button>
-            Everyone:
-            <div id="all_players"></div>
-            <button onclick="cancel()">Cancel</button>
-            <button onclick="done()">DONE!</button>
+            <div class="row">
+              <span>You played with:</span>
+              <div id="recent"></div>
+            </div>
+            <div class="row">
+              <span>Everyone:</span>
+              <div id="all_players"></div>
+            </div>
+            <div class="row">
+              <button onclick="cancel()">Cancel</button>
+              <button onclick="done()">DONE!</button>
+            </div>
           </div>
         </div>
       </div>
