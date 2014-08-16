@@ -23,16 +23,19 @@ from model_players import Player
 from model_reservations import Reservation
 import jinja2
 import os
-import json
-import ast
+from google.appengine.api import memcache
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
-Players=[]
-Reservations=[]
+#Players=[]
+#Reservations=[]
+#Recent=dict()
+
+memcache.add("player", [], 186400)
+memcache.add("reservation", [], 186400)
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -58,6 +61,8 @@ class AddUserHandler(webapp2.RequestHandler):
 class PublicHandler(webapp2.RequestHandler):
     def get(self):
         try:
+            Players = memcache.get("player")
+            print (Players)
             s = "["
             s += ','.join(Players) 
             s += "]"
@@ -68,6 +73,7 @@ class PublicHandler(webapp2.RequestHandler):
 class ReservationHandler(webapp2.RequestHandler):
     def get(self):
         try:
+            Reservations = memcache.get("reservation")
             s = "["
             s += ','.join(Reservations)
             s += "]"
@@ -80,8 +86,18 @@ class CreatePlayerHandler(webapp2.RequestHandler):
         try:
             name = self.request.get("name")
             email = self.request.get("email")
-            new_player = '{"name": "%s", "email": "%s"}' % (name, email)
-            Players.append(ast.literal_eval(new_player))
+            new_player = '{\"name\": \"%s\", \"email\": \"%s\"}' % (name, email)
+            Player = memcache.get("player")
+            print "hahah\n\n"
+            print Player
+            print "heheh\n\n"
+            Player.append(new_player)
+            print Player
+            print "wowow"
+           
+            print memcache.get("player")
+            memcache.set("player", Player, 186400)
+            print memcache.get("player")
         except (TypeError, ValueError):
             self.response.out.write("<html><body><p>Invalid data</p></body></html>")
 
@@ -91,15 +107,34 @@ class CreateReservationHandler(webapp2.RequestHandler):
             names = self.request.get("players")
             names_split = names.split(',')
             names_split = ['"'+a+'"' for a in names_split]
+
+#            for name in names_split:
+#                for name2 in names_split:
+#                    if name is not name2:
+#                        if name in Recent:
+#                            Recent[name].add(name2)
+#                        else:
+#                            Recent[name] = set([name2])
             names = ','.join(names_split)
-            self.response.out.write(names)
             start = self.request.get("start")
             end = self.request.get("end")
             new_reservation = '{\"players\": [%s], \"start\":\"%s\", \"end\":\"%s\"}' % (names, start, end)
-            print (new_reservation)
-            Reservations.append(new_reservation)
+            Reservation = memcache.get("reservation")
+            Reservation.append(new_reservation)
+            memcache.set("reservation", Reservation, 186400)
         except (TypeError, ValueError):
             self.response.out.write("<html><body><p>Invalid data</p></body></html>") 
+
+#class GetRecentHandler(webapp2.RequestHandler):
+#    def get(self):
+#        try:
+#            name = self.request.get("name")
+#            print ("\n\n\n" + name + "\n\n\n")
+#            print ("\n\n\n" + "lalalala"  + "\n\n\n")
+#            s = str(list(Recent[name])).replace("'", '"')
+#            self.response.out.write(s)
+#        except (TypeError, ValueError):
+#            self.response.out.write("<html><body><p>Invalid data</p></body></html>")
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
@@ -110,4 +145,5 @@ app = webapp2.WSGIApplication([
     ('/get_reservations', ReservationHandler),
     ('/create_player', CreatePlayerHandler),
     ('/create_reservation', CreateReservationHandler)
+#    ('/get_recent', GetRecentHandler)
 ], debug=True)
