@@ -163,7 +163,6 @@
         for (var j=0; j<events[i].players.length; j++) {
           title = title.concat(events[i].players[j]);
           title = title.concat(",");
-          console.log(player_name+","+events[i].players[j]);
           if (player_name == events[i].players[j]) {
             color = '#00ff00';
           }
@@ -179,6 +178,7 @@
         };
         eventData.color = color;
         console.log(eventData);
+        // $('#calendar').fullCalendar('removeEvents', 2798);
         $('#calendar').fullCalendar('renderEvent', eventData, true);
       }
       // document.getElementById("player").innerHTML = events[0];
@@ -205,7 +205,8 @@
 
       // put to db and refresh
       eventData.id = 99;
-      send_request('/make_reservation?players='+title+'&start='+eventData.start+'&end='+eventData.end);
+      console.log(eventData.start);
+      send_request('/create_reservation?players='+title+'&start='+eventData.start._d+'&end='+eventData.end._d);
       showEventsOnCalendar();
       event_id_counter = 0;
     }
