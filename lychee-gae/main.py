@@ -58,14 +58,20 @@ class AddUserHandler(webapp2.RequestHandler):
 class PublicHandler(webapp2.RequestHandler):
     def get(self):
         try:
-            self.response.out.write(Players)
+            s = "["
+            s += ','.join(Players) 
+            s += "]"
+            self.response.out.write(s)
         except (TypeError, ValueError):
             self.response.out.write("<html><body><p>Invalid inputs</p></body></html>")
 
 class ReservationHandler(webapp2.RequestHandler):
     def get(self):
         try:
-            self.response.out.write(Reservations)
+            s = "["
+            s += ','.join(Reservations)
+            s += "]"
+            self.response.out.write(s)
         except (TypeError, ValueError):
             self.response.out.write("<html><body><p>Invalid data</p></body></html>")
 
@@ -74,7 +80,7 @@ class CreatePlayerHandler(webapp2.RequestHandler):
         try:
             name = self.request.get("name")
             email = self.request.get("email")
-            new_player = "{'name': '%s', 'email': '%s'}" % (name, email)
+            new_player = '{"name": "%s", "email": "%s"}' % (name, email)
             Players.append(ast.literal_eval(new_player))
         except (TypeError, ValueError):
             self.response.out.write("<html><body><p>Invalid data</p></body></html>")
@@ -89,8 +95,9 @@ class CreateReservationHandler(webapp2.RequestHandler):
             self.response.out.write(names)
             start = self.request.get("start")
             end = self.request.get("end")
-            new_reservation = "{'players': [%s], 'start':'%s', 'end':'%s'}" % (names, start, end)
-            Reservations.append(ast.literal_eval(new_reservation))
+            new_reservation = '{\"players\": [%s], \"start\":\"%s\", \"end\":\"%s\"}' % (names, start, end)
+            print (new_reservation)
+            Reservations.append(new_reservation)
         except (TypeError, ValueError):
             self.response.out.write("<html><body><p>Invalid data</p></body></html>") 
 
