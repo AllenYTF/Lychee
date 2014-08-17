@@ -117,6 +117,9 @@
         selectHelper: true,
         select: function(start, end) {
 
+          document.getElementById('cancel_done').setAttribute('style', 'display: yes');
+          document.getElementById('quick_reserve').setAttribute('style', 'display: none');
+
           var json_str = send_request('/get_reservations');
           events = JSON.parse(json_str);
           var no_overlap = true;
@@ -165,8 +168,6 @@
             getListOfRecent();
             all_players();
           }
-          document.getElementById('cancel_done').setAttribute('style', 'display: yes');
-          document.getElementById('quick_reserve').setAttribute('style', 'display: none');
         }
       })
     });
