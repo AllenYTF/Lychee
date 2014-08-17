@@ -117,12 +117,6 @@
         selectHelper: true,
         select: function(start, end) {
 
-          document.getElementById('pls_select').setAttribute('style', 'display: none');
-          document.getElementById('cancel_done').setAttribute('style', 'display: yes');
-          document.getElementById('quick_reserve').setAttribute('style', 'display: none');
-          document.getElementById('played_with').setAttribute('style', 'display: yes');
-          document.getElementById('everyone').setAttribute('style', 'display: yes');
-
           var json_str = send_request('/get_reservations');
           events = JSON.parse(json_str);
           var no_overlap = true;
@@ -130,6 +124,13 @@
           title = player_name;
           if (title) {
             if (more_than_one_event == 0) {
+
+              document.getElementById('pls_select').setAttribute('style', 'display: none');
+              document.getElementById('cancel_done').setAttribute('style', 'display: yes');
+              document.getElementById('quick_reserve').setAttribute('style', 'display: none');
+              document.getElementById('played_with').setAttribute('style', 'display: yes');
+              document.getElementById('everyone').setAttribute('style', 'display: yes');
+
               eventData = {
                 id: event_id_counter,
                 title: title,
@@ -323,10 +324,12 @@
             showPlayerName(player_name);
             document.getElementById('loginbox').setAttribute('style', 'display: none');
             document.getElementById('logoutbutton').setAttribute('style', 'display: yes');
+            document.getElementById("pls_select").innerHTML = "PLEASE SELECT TIME <br> <br> OR";
         } else {
             document.getElementById("player_name").innerHTML = "none";
             document.getElementById('loginbox').setAttribute('style', 'display: yes');
             document.getElementById('logoutbutton').setAttribute('style', 'display: none');
+            document.getElementById("pls_select").innerHTML = "PLEASE LOG IN <br> <br> OR";
         }
     }
     function showPlayerName(pname) {
@@ -437,12 +440,7 @@
       <div class="col-lg-6" style="padding:100px">
         <div class="status-div">
           <div id="info">
-            <h3 id="pls_select">
-              PLEASE SELECT TIME
-              <br>
-              <br>
-              OR
-            </h3>
+            <h3 id="pls_select"></h3>
             <div id="played_with" class="row" style="display: none">
               <span>You played with:</span>
               <div id="recent"></div>
