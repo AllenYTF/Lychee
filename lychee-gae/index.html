@@ -84,10 +84,10 @@
     }
 
     function overlap(new_event, old_event) {
-      var new_start = time_to_int(new_event.start.toDate().toUTCString())
-      var new_end = time_to_int(new_event.end.toDate().toUTCString())
-      var old_start = time_to_int(old_event.start)
-      var old_end = time_to_int(old_event.end)
+      var new_start = new_event.start.unix();
+      var new_end = new_event.end.unix();
+      var old_start = old_event.start.unix();
+      var old_end = old_event.end.unix();
       if (old_start < new_start && new_start < old_end)
         return true;
       if (old_start < new_end && new_end < old_end)
@@ -120,16 +120,6 @@
           events = JSON.parse(json_str);
           var no_overlap = true;
 
-          // console.log(start);
-          // var start_time = $.fullCalendar.moment(start._d);
-          // // start_time._a = start._a;
-          // // start_time._i = start._i;
-          // start_time._isUTC = true;
-          // var end_time = $.fullCalendar.moment(end._d);
-          // // end_time._a = end._a;
-          // // end_time._i = end._i;
-          // end_time._isUTC = true;
-
           title = player_name;
           if (title) {
             if (more_than_one_event == 0) {
@@ -140,12 +130,14 @@
                 end: end
               };
 
-              console.log(eventData);
-
               // make sure there's not collision with existing reservations
 
               for (var i=0; i<events.length; i++) {
-                if(overlap(eventData, events[i])) {
+                var eventOld = {
+                  start: create_calendar_time(events[i].start),
+                  end: create_calendar_time(events[i].end)
+                }
+                if(overlap(eventData, eventOld)) {
                   no_overlap = false;
                   break;
                 }
@@ -315,6 +307,52 @@
         showEventsOnCalendar();
     }
 
+    function reserve15() {
+      var title = player_name;
+      eventData = moment();
+      eventData.title = title;
+
+      // find the next available slot
+      var json_str = send_request("/get_reservations");
+
+      eventData.start = $.fullCalendar.moment();
+      eventData.start._isUTC = true;
+      eventData.end = $.fullCalendar.moment().add("minutes", 15);
+      eventData.end._isUTC = true;
+
+      console.log(eventData);
+
+      // put to db and refresh
+      eventData.id = 99;
+      send_request('/create_reservation?players='+title+'&start='+eventData.start._d+'&end='+eventData.end._d);
+      showEventsOnCalendar();
+      document.getElementById("recent").innerHTML = "";
+      document.getElementById("all_players").innerHTML = "";
+    }
+
+    function reserve30() {
+      var title = player_name;
+      eventData = moment();
+      eventData.title = title;
+
+      // find the next available slot
+      var json_str = send_request("/get_reservations");
+
+      eventData.start = $.fullCalendar.moment();
+      eventData.start._isUTC = true;
+      eventData.end = $.fullCalendar.moment().add("minutes", 30);
+      eventData.end._isUTC = true;
+
+      console.log(eventData);
+
+      // put to db and refresh
+      eventData.id = 99;
+      send_request('/create_reservation?players='+title+'&start='+eventData.start._d+'&end='+eventData.end._d);
+      showEventsOnCalendar();
+      document.getElementById("recent").innerHTML = "";
+      document.getElementById("all_players").innerHTML = "";
+    }
+
   </script>
   <style>
 
@@ -376,8 +414,8 @@
           </div>
             <div class="row">
                 <br>
-              <button onclick="EDIT_ME">Quick Reserve 15 Min</button>
-              <button onclick="EDIT_ME">Quick Reserve 30 Min</button>
+              <button onclick="reserve15()">Quick Reserve 15 Min</button>
+              <button onclick="reserve30()">Quick Reserve 30 Min</button>
             </div>
         </div>
       </div>

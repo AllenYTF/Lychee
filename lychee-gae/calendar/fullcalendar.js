@@ -46,7 +46,7 @@ var defaults = {
 	endParam: 'end',
 	timezoneParam: 'timezone',
 
-	timezone: false,
+	timezone: "local",
 
 	//allDayDefault: undefined,
 	
