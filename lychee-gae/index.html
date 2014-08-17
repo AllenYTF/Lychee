@@ -198,7 +198,7 @@
         };
         eventData.color = color;
         eventData.textColor = eventTextColor;
-        console.log(eventData);
+        // console.log(eventData);
         $('#calendar').fullCalendar('renderEvent', eventData, true);
       }
       
@@ -212,7 +212,11 @@
 
     function cancel() {
       $('#calendar').fullCalendar('removeEvents', event_id_counter);
+      showEventsOnCalendar();
       more_than_one_event = 0;
+      selected_players = [];
+      document.getElementById("recent").innerHTML = "";
+      document.getElementById("all_players").innerHTML = "";
     }
 
     function done() {
@@ -307,17 +311,38 @@
         showEventsOnCalendar();
     }
 
-    function reserve15() {
+    function reserve(time) {
       var title = player_name;
       eventData = moment();
       eventData.title = title;
 
       // find the next available slot
       var json_str = send_request("/get_reservations");
+      var events = JSON.parse(json_str);
+      var starts = [];
+      var ends = [];
+      for (var i=0; i<events.length; i++) {
+        starts.push(create_calendar_time(events[i].start).unix());
+        ends.push(create_calendar_time(events[i].end).unix());
+      }
+      var this_now_works = false;
+      var now = $.fullCalendar.moment().unix();
+      var next = $.fullCalendar.moment().add("minutes", time).unix();
+      while (this_now_works == false) {
+        this_now_works = true;
+        for (var i=0; i<events.length; i++) {
+          if ((starts[i] >= now && starts[i] <= next) || (ends[i] >= now && ends[i] <= next)) {
+            this_now_works = false;
+            now = ends[i]+1;
+            next = now + (time * 60);
+            break;
+          }
+        }
+      }
 
-      eventData.start = $.fullCalendar.moment();
+      eventData.start = moment.unix(now);
       eventData.start._isUTC = true;
-      eventData.end = $.fullCalendar.moment().add("minutes", 15);
+      eventData.end = moment.unix(next);
       eventData.end._isUTC = true;
 
       console.log(eventData);
@@ -330,27 +355,12 @@
       document.getElementById("all_players").innerHTML = "";
     }
 
+    function reserve15() {
+      reserve(15);
+    }
+
     function reserve30() {
-      var title = player_name;
-      eventData = moment();
-      eventData.title = title;
-
-      // find the next available slot
-      var json_str = send_request("/get_reservations");
-
-      eventData.start = $.fullCalendar.moment();
-      eventData.start._isUTC = true;
-      eventData.end = $.fullCalendar.moment().add("minutes", 30);
-      eventData.end._isUTC = true;
-
-      console.log(eventData);
-
-      // put to db and refresh
-      eventData.id = 99;
-      send_request('/create_reservation?players='+title+'&start='+eventData.start._d+'&end='+eventData.end._d);
-      showEventsOnCalendar();
-      document.getElementById("recent").innerHTML = "";
-      document.getElementById("all_players").innerHTML = "";
+      reserve(30);
     }
 
   </script>
