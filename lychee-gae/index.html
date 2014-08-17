@@ -28,6 +28,12 @@
     event_id_counter = 0;
     selected_players = [];
     function clickOnSomebody(checkbox) {
+      for (var i=0; i<selected_players.length; i++) {
+        if (checkbox.value == selected_players[i]) {
+          selected_players.splice(i, 1);
+          return;
+        }
+      }
       selected_players.push(checkbox.value);
     }
 
@@ -58,11 +64,21 @@
       for (var i=0; i<json_obj.length; i++) {
         all.push(json_obj[i].name);
       }
+
+      var recent = JSON.parse(send_request("/get_recent?name="+player_name));
       document.getElementById("all_players").innerHTML = "";
       for (var i=0; i<all.length; i++) {
         if (all[i] != player_name) {
-          var btn = createANiceButton(all[i])
-          document.getElementById("all_players").innerHTML += btn;
+          var already_in_recent = false;
+          for (var j=0; j<recent.length; j++) {
+            if (all[i] == recent[j]) {
+              already_in_recent = true;
+            }
+          }
+          if (already_in_recent == false) {
+            var btn = createANiceButton(all[i])
+            document.getElementById("all_players").innerHTML += btn;
+          }
         }
       }
     }
