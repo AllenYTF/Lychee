@@ -53,7 +53,11 @@
     }
 
     function all_players() {
-      var all = ["andrew", "sergey", "abhi", "ruofeng", "shengwei", "shubo", "allen", "qi"];
+      var json_obj = JSON.parse(send_request("/get_public"));
+      var all = [];
+      for (var i=0; i<json_obj.length; i++) {
+        all.push(json_obj[i].name);
+      }
       document.getElementById("all_players").innerHTML = "";
       for (var i=0; i<all.length; i++) {
         if (all[i] != player_name) {
@@ -208,7 +212,7 @@
       // put to db and refresh
       eventData.id = 99;
       console.log(eventData.start);
-      send_request('/create_reservation?players='+title+'&start='+eventData.start._d+'&end='+eventData.end._d);
+      send_request('/create_reservation?players='+title+'&start='+eventData.start+'&end='+eventData.end);
       showEventsOnCalendar();
       more_than_one_event = 0;
       selected_players = [];
