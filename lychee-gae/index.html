@@ -99,6 +99,12 @@
       return false;
     }
 
+    function create_calendar_time(d) {
+      var time = $.fullCalendar.moment(d);
+      time._isUTC = true;
+      return time;
+    }
+
     $(document).ready(function() {
 
       // page is now ready, initialize the calendar...
@@ -114,6 +120,16 @@
           events = JSON.parse(json_str);
           var no_overlap = true;
 
+          // console.log(start);
+          // var start_time = $.fullCalendar.moment(start._d);
+          // // start_time._a = start._a;
+          // // start_time._i = start._i;
+          // start_time._isUTC = true;
+          // var end_time = $.fullCalendar.moment(end._d);
+          // // end_time._a = end._a;
+          // // end_time._i = end._i;
+          // end_time._isUTC = true;
+
           title = player_name;
           if (title) {
             if (more_than_one_event == 0) {
@@ -123,6 +139,8 @@
                 start: start,
                 end: end
               };
+
+              console.log(eventData);
 
               // make sure there's not collision with existing reservations
 
@@ -160,31 +178,35 @@
 
     function showEventsOnCalendar() {
 
+      $('#calendar').fullCalendar('removeEvents');
+
       var json_str = send_request('/get_reservations');
-      console.log(json_str);
       events = JSON.parse(json_str);
       for (var i=0; i<events.length; i++) {
         var color = '#708090';
+        var eventTextColor = '#ffffff';
         var title = "";
         for (var j=0; j<events[i].players.length; j++) {
           title = title.concat(events[i].players[j]);
           title = title.concat(",");
           if (player_name == events[i].players[j]) {
-            color = '#00ff00';
+            color = '#adff2f';
+            eventTextColor = "#000000";
           }
         }
         if (events[i].players.length > 0) {
           title = title.substring(0, title.length-1);
         }
+
         eventData = {
           id:2798,
           title: title,
-          start: events[i].start,
-          end: events[i].end
+          start: create_calendar_time(events[i].start),
+          end: create_calendar_time(events[i].end)
         };
         eventData.color = color;
+        eventData.textColor = eventTextColor;
         console.log(eventData);
-        // $('#calendar').fullCalendar('removeEvents', 2798);
         $('#calendar').fullCalendar('renderEvent', eventData, true);
       }
       // document.getElementById("player").innerHTML = events[0];
@@ -207,12 +229,11 @@
       title = title.substring(0, title.length-1);
       eventData.title = title;
       $('#calendar').fullCalendar('removeEvents', event_id_counter-1);
-      $('#calendar').fullCalendar('renderEvent', eventData, true);
+      // $('#calendar').fullCalendar('renderEvent', eventData, true);
 
       // put to db and refresh
       eventData.id = 99;
-      console.log(eventData.start);
-      send_request('/create_reservation?players='+title+'&start='+eventData.start+'&end='+eventData.end);
+      send_request('/create_reservation?players='+title+'&start='+eventData.start._d+'&end='+eventData.end._d);
       showEventsOnCalendar();
       more_than_one_event = 0;
       selected_players = [];
@@ -222,7 +243,6 @@
 
     function search() {
       var name = document.getElementById("search").value;
-      console.log(name);
       return name;
     }
 
@@ -232,6 +252,7 @@
       send_request('/create_player?name='+player_name+'&email='+email);
       setCookie();
       document.getElementById("create_new_user").innerHTML = "";
+      showEventsOnCalendar();
     }
 
     function checkIfThisUserIsInDB() {
@@ -249,6 +270,9 @@
         // create a textbox for email
         document.getElementById("create_new_user").innerHTML = 'Yah, new player ~ ^_^ ~ What is your email, man?<input id="input_email" type="text" name="Email"></input>\
           <input type="submit" onclick="CreateNewUser()" value="register"></input>';
+      }
+      else {
+        showEventsOnCalendar();
       }
     }
 
