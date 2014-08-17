@@ -166,6 +166,7 @@
             all_players();
           }
           document.getElementById('cancel_done').setAttribute('style', 'display: yes');
+          document.getElementById('quick_reserve').setAttribute('style', 'display: none');
         }
       })
     });
@@ -229,6 +230,8 @@
       selected_players = [];
       document.getElementById("recent").innerHTML = "";
       document.getElementById("all_players").innerHTML = "";
+      document.getElementById('quick_reserve').setAttribute('style', 'display: yes');
+      document.getElementById('cancel_done').setAttribute('style', 'display: none');
     }
 
     function done() {
@@ -253,6 +256,8 @@
       selected_players = [];
       document.getElementById("recent").innerHTML = "";
       document.getElementById("all_players").innerHTML = "";
+      document.getElementById('quick_reserve').setAttribute('style', 'display: yes');
+      document.getElementById('cancel_done').setAttribute('style', 'display: none');
     }
 
     function search() {
