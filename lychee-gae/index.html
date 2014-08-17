@@ -117,8 +117,11 @@
         selectHelper: true,
         select: function(start, end) {
 
+          document.getElementById('pls_select').setAttribute('style', 'display: none');
           document.getElementById('cancel_done').setAttribute('style', 'display: yes');
           document.getElementById('quick_reserve').setAttribute('style', 'display: none');
+          document.getElementById('played_with').setAttribute('style', 'display: yes');
+          document.getElementById('everyone').setAttribute('style', 'display: yes');
 
           var json_str = send_request('/get_reservations');
           events = JSON.parse(json_str);
@@ -211,7 +214,7 @@
         var end = create_calendar_time(events[i].start).unix();
         var now = $.fullCalendar.moment().unix();
         if (now >= start-60 && now <= end+60) {
-          display_text = "occupied";
+          display_text = "Occupied";
         }
       }
       
@@ -231,8 +234,11 @@
       selected_players = [];
       document.getElementById("recent").innerHTML = "";
       document.getElementById("all_players").innerHTML = "";
+      document.getElementById('pls_select').setAttribute('style', 'display: yes');
       document.getElementById('quick_reserve').setAttribute('style', 'display: yes');
       document.getElementById('cancel_done').setAttribute('style', 'display: none');
+      document.getElementById('played_with').setAttribute('style', 'display: none');
+      document.getElementById('everyone').setAttribute('style', 'display: none');
     }
 
     function done() {
@@ -257,8 +263,11 @@
       selected_players = [];
       document.getElementById("recent").innerHTML = "";
       document.getElementById("all_players").innerHTML = "";
+      document.getElementById('pls_select').setAttribute('style', 'display: yes');
       document.getElementById('quick_reserve').setAttribute('style', 'display: yes');
       document.getElementById('cancel_done').setAttribute('style', 'display: none');
+      document.getElementById('played_with').setAttribute('style', 'display: none');
+      document.getElementById('everyone').setAttribute('style', 'display: none');
     }
 
     function search() {
@@ -313,14 +322,10 @@
             showPlayerName(player_name);
             document.getElementById('loginbox').setAttribute('style', 'display: none');
             document.getElementById('logoutbutton').setAttribute('style', 'display: yes');
-            document.getElementById('played_with').setAttribute('style', 'display: yes');
-            document.getElementById('everyone').setAttribute('style', 'display: yes');
         } else {
             document.getElementById("player_name").innerHTML = "none";
             document.getElementById('loginbox').setAttribute('style', 'display: yes');
             document.getElementById('logoutbutton').setAttribute('style', 'display: none');
-            document.getElementById('played_with').setAttribute('style', 'display: none');
-            document.getElementById('everyone').setAttribute('style', 'display: none');
         }
     }
     function showPlayerName(pname) {
@@ -431,11 +436,17 @@
       <div class="col-lg-6" style="padding:100px">
         <div class="status-div">
           <div id="info">
-            <div id="played_with" class="row">
+            <h3 id="pls_select">
+              PLEASE SELECT TIME
+              <br>
+              <br>
+              OR
+            </h3>
+            <div id="played_with" class="row" style="display: none">
               <span>You played with:</span>
               <div id="recent"></div>
             </div>
-            <div id="everyone" class="row">
+            <div id="everyone" class="row" style="display: none">
               <span>Everyone:</span>
               <div id="all_players"></div>
             </div>
