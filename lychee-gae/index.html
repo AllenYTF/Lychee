@@ -42,7 +42,7 @@
 
     // query db to find this
     function getListOfRecent() {
-      var recent = ["abhi", "sergey", "andrew"];
+      var recent = JSON.parse(send_request("/get_recent?name="+player_name));
       document.getElementById("recent").innerHTML = "";
       for (var i=0; i<recent.length; i++) {
         if (recent[i] != player_name) {

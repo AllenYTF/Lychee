@@ -98,6 +98,7 @@ class CreatePlayerHandler(webapp2.RequestHandler):
             print memcache.get("player")
             memcache.set("player", Player, 186400)
             print memcache.get("player")
+            memcache.add(name, [], 186400)
         except (TypeError, ValueError):
             self.response.out.write("<html><body><p>Invalid data</p></body></html>")
 
@@ -122,19 +123,31 @@ class CreateReservationHandler(webapp2.RequestHandler):
             Reservation = memcache.get("reservation")
             Reservation.append(new_reservation)
             memcache.set("reservation", Reservation, 186400)
+
+            for name in self.request.get("players").split(','):
+                Recent = memcache.get(name)
+                for other_name in self.request.get("players").split(","):
+                    print other_name, name, Recent
+                    if other_name != name and other_name not in Recent:
+                        Recent += [other_name]
+                        print Recent
+                memcache.set(name, Recent, 186400)
+
         except (TypeError, ValueError):
             self.response.out.write("<html><body><p>Invalid data</p></body></html>") 
 
-#class GetRecentHandler(webapp2.RequestHandler):
-#    def get(self):
-#        try:
-#            name = self.request.get("name")
-#            print ("\n\n\n" + name + "\n\n\n")
-#            print ("\n\n\n" + "lalalala"  + "\n\n\n")
-#            s = str(list(Recent[name])).replace("'", '"')
-#            self.response.out.write(s)
-#        except (TypeError, ValueError):
-#            self.response.out.write("<html><body><p>Invalid data</p></body></html>")
+class GetRecentHandler(webapp2.RequestHandler):
+   def get(self):
+       try:
+            name = self.request.get("name")
+            Recent = memcache.get(name)
+            names = ['"'+a+'"' for a in Recent]
+            s = "["
+            s += ','.join(names)
+            s += "]"
+            self.response.out.write(s)
+       except (TypeError, ValueError):
+            self.response.out.write("<html><body><p>Invalid data</p></body></html>")
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
@@ -144,6 +157,6 @@ app = webapp2.WSGIApplication([
     ('/get_public', PublicHandler),
     ('/get_reservations', ReservationHandler),
     ('/create_player', CreatePlayerHandler),
-    ('/create_reservation', CreateReservationHandler)
-#    ('/get_recent', GetRecentHandler)
+    ('/create_reservation', CreateReservationHandler),
+    ('/get_recent', GetRecentHandler)
 ], debug=True)
