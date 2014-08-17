@@ -3608,7 +3608,7 @@ setDefaults({
 
 	axisFormat: generateAgendaAxisFormat,
 	timeFormat: {
-		agenda: generateAgendaTimeFormat
+		agenda: ""//generateAgendaTimeFormat
 	},
 
 	dragOpacity: {

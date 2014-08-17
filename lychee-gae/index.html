@@ -209,7 +209,13 @@
         console.log(eventData);
         $('#calendar').fullCalendar('renderEvent', eventData, true);
       }
-      // document.getElementById("player").innerHTML = events[0];
+      
+      // show current time as a bar
+      currentTime = {
+        start: moment(),
+        end: moment()
+      };
+      $('#calendar').fullCalendar('renderEvent', currentTime, true);
     }
 
     function cancel() {
