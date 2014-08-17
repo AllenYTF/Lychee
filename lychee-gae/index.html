@@ -172,6 +172,7 @@
     function showEventsOnCalendar() {
 
       $('#calendar').fullCalendar('removeEvents');
+      var display_text = "FREE";
 
       var json_str = send_request('/get_reservations');
       events = JSON.parse(json_str);
@@ -201,6 +202,14 @@
         eventData.textColor = eventTextColor;
         // console.log(eventData);
         $('#calendar').fullCalendar('renderEvent', eventData, true);
+
+        // change table status
+        var start = create_calendar_time(events[i].start).unix();
+        var end = create_calendar_time(events[i].start).unix();
+        var now = $.fullCalendar.moment().unix();
+        if (now >= start-60 && now <= end+60) {
+          display_text = "occupied";
+        }
       }
       
       // show current time as a bar
@@ -209,6 +218,7 @@
         end: moment()
       };
       $('#calendar').fullCalendar('renderEvent', currentTime, true);
+      document.getElementById("table-status").innerHTML = display_text;
     }
 
     function cancel() {
@@ -397,8 +407,8 @@
         <input id="logoutbutton" style="display: none" type="submit" onclick="removeCookie()" value="logout"></input>
       </div>
       <div class="pull-right">
-        <span> Pool table status:</span>
-        <span id="table-status">FREE</span>
+        <span>Pool table status:</span>
+        <span id="table-status"></span>
       </div>
     </div>
   </nav>
