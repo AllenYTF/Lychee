@@ -297,8 +297,9 @@
       }
       if (found == false) {
         // create a textbox for email
-        document.getElementById("create_new_user").innerHTML = 'Yah, new player ~ ^_^ ~ What is your email, man?<input id="input_email" type="text" name="Email"></input>\
-          <input type="submit" onclick="CreateNewUser()" value="register"></input>';
+        document.getElementById("create_new_user").innerHTML = 'Yah, new player ~ ^_^ ~ What is your email, man?<input id="input_email" type="text" name="Email" onkeydown="if (event.keyCode == 13) document.getElementById(\'submit_email\').click()"></input>\
+          <input id="submit_email" type="submit" onclick="CreateNewUser()" value="register"></input>';
+        document.getElementById("input_email").focus();
       }
       else {
         showEventsOnCalendar();
