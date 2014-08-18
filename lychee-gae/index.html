@@ -140,13 +140,6 @@
           title = player_name;
           if (title) {
             if (more_than_one_event == 0) {
-
-              document.getElementById('pls_select').setAttribute('style', 'display: none');
-              document.getElementById('cancel_done').setAttribute('style', 'display: yes');
-              document.getElementById('quick_reserve').setAttribute('style', 'display: none');
-              document.getElementById('played_with').setAttribute('style', 'display: yes');
-              document.getElementById('everyone').setAttribute('style', 'display: yes');
-
               eventData = {
                 id: event_id_counter,
                 title: title,
@@ -169,6 +162,13 @@
 
               if (no_overlap) {
                 $('#calendar').fullCalendar('renderEvent', eventData, true);
+
+                document.getElementById('pls_select').setAttribute('style', 'display: none');
+                document.getElementById('cancel_done').setAttribute('style', 'display: yes');
+                document.getElementById('quick_reserve').setAttribute('style', 'display: none');
+                document.getElementById('played_with').setAttribute('style', 'display: yes');
+                document.getElementById('everyone').setAttribute('style', 'display: yes');
+
               }
             }
 
